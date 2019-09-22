@@ -1,0 +1,18 @@
+<%- include("../public/header.ejs")%>
+
+
+    <% if(islogin && user.id == result.authorId){%>
+        <a href="/article/edit/<%= result.id %>" class="btn btn-info pull-right">编辑</a>
+        <% }%>
+            <div class="container">
+                <h1 class="text-center">
+                    <%= result.title%>
+                </h1>
+                <div class="form-group text-center">
+
+                    <h4>
+                        <%- result.content %>
+                    </h4>
+                </div>
+            </div>
+            <%- include("../public/footer.ejs")%>

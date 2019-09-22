@@ -1,0 +1,49 @@
+<%- include("../public/header.ejs") %>
+
+
+    <link rel="stylesheet" href="/node_modules/mditor/dist/css/mditor.min.css">
+    <script src="/node_modules/mditor/dist/js/mditor.min.js"></script>
+    <div class="container">
+        <h3 class="text-center">请发布问题</h3>
+        <form id="form">
+            <!-- 在进入文章添加页面的一瞬间，就立即把 文章的 作者Id，保存到 一个隐藏域中，防止 session 失效的问题 -->
+            <input type="hidden" name="authorId" value="<%= user.id %>">
+            <div class="form-group">
+                <label>问题标题：</label>
+                <input type="text" name="title" class="form-control" required>
+            </div>
+
+            <div class="form-group">
+                <label>问题详述：</label>
+                <textarea name="content" class="form-control" id="editor"></textarea>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="发布问题" class="btn btn-primary">
+            </div>
+        </form>
+        <script>
+            $(function() {
+                $("#form").on("submit", function(e) {
+                    e.preventDefault()
+                    $.ajax({
+                        type: "POST",
+                        data: $("#form").serialize(),
+                        dataType: "json",
+                        url: "/question/add",
+                        success: function(res) {
+                            if (res.status != 200) {
+                                return alert(res.msg)
+                            }
+                            location.href = "/question/show/" + res.insertId
+                        }
+                    })
+
+
+
+                })
+            })
+        </script>
+
+    </div>
+    <%- include("../public/footer.ejs") %>
